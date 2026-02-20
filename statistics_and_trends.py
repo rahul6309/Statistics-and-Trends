@@ -93,7 +93,7 @@ def writing(moments, col):
 def main():
     """Main function to run the analysis pipeline."""
     # Ensure the file is in the same directory
-    df = pd.read_csv('Financial Dataset - 1.csv')
+    df = pd.read_csv('data.csv')
     df = preprocessing(df)
     col = 'Respondent Age'
     plot_relational_plot(df)
