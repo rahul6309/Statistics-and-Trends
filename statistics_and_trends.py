@@ -78,7 +78,7 @@ def writing(moments, col):
 
 def main():
     """Main execution."""
-    df = pd.read_csv('data.csv.csv')
+    df = pd.read_csv('data.csv')
     df = preprocessing(df)
     col = 'Horsepower'
 
