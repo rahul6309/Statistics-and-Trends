@@ -96,7 +96,7 @@ def writing(moments, col):
 def main():
     # Make sure 'Financial Dataset - 1.csv' is in the same folder as this script
     try:
-        df = pd.read_csv('Financial Dataset - 1.csv')
+        df = pd.read_csv('data.csv')
     except FileNotFoundError:
         print("Error: The file 'Financial Dataset - 1.csv' was not found.")
         print("Please ensure the CSV file is in the same folder as this script.")
