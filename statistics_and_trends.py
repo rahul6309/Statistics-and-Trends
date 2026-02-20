@@ -1,75 +1,80 @@
-"""
-This is the template file for the statistics and trends assignment.
-You will be expected to complete all the sections and
-make this a fully working, documented file.
-You should NOT change any function, file or variable names,
- if they are given to you here.
-Make use of the functions presented in the lectures
-and ensure your code is PEP-8 compliant, including docstrings.
-"""
-from corner import corner
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import scipy.stats as ss
 import seaborn as sns
-
+from corner import corner
 
 def plot_relational_plot(df):
-    fig, ax = plt.subplots()
+    """Plots relationship between Age and Household Size."""
+    plt.figure(figsize=(8, 5))
+    sns.scatterplot(data=df, x='Respondent Age', y='household_size')
+    plt.title('Age vs Household Size')
     plt.savefig('relational_plot.png')
-    return
-
+    plt.close()
 
 def plot_categorical_plot(df):
-    fig, ax = plt.subplots()
+    """Plots Age distribution by Country."""
+    plt.figure(figsize=(8, 5))
+    sns.boxplot(data=df, x='country', y='Respondent Age')
+    plt.xticks(rotation=45)
     plt.savefig('categorical_plot.png')
-    return
-
+    plt.close()
 
 def plot_statistical_plot(df):
-    fig, ax = plt.subplots()
+    """Plots the distribution of Respondent Age."""
+    plt.figure(figsize=(8, 5))
+    sns.histplot(df['Respondent Age'], kde=True)
     plt.savefig('statistical_plot.png')
-    return
-
+    plt.close()
 
 def statistical_analysis(df, col: str):
-    mean =
-    stddev =
-    skew =
-    excess_kurtosis =
+    """Calculates mean, stddev, skew, and kurtosis."""
+    data = df[col].dropna()  # Remove NaNs to prevent errors
+    mean = data.mean()
+    stddev = data.std()
+    skew = ss.skew(data)
+    excess_kurtosis = ss.kurtosis(data)
     return mean, stddev, skew, excess_kurtosis
 
-
 def preprocessing(df):
-    # You should preprocess your data in this function and
-    # make use of quick features such as 'describe', 'head/tail' and 'corr'.
+    """Basic data cleaning and exploration."""
+    print("Columns in dataset:", df.columns.tolist())
+    # Convert numeric columns and drop missing values for analysis
+    df['Respondent Age'] = pd.to_numeric(df['Respondent Age'], errors='coerce')
+    df['household_size'] = pd.to_numeric(df['household_size'], errors='coerce')
     return df
 
-
 def writing(moments, col):
-    print(f'For the attribute {col}:')
+    """Outputs the statistical results."""
+    print(f'\nFor the attribute {col}:')
     print(f'Mean = {moments[0]:.2f}, '
           f'Standard Deviation = {moments[1]:.2f}, '
           f'Skewness = {moments[2]:.2f}, and '
           f'Excess Kurtosis = {moments[3]:.2f}.')
-    # Delete the following options as appropriate for your data.
-    # Not skewed and mesokurtic can be defined with asymmetries <-2 or >2.
-    print('The data was right/left/not skewed and platy/meso/leptokurtic.')
-    return
-
+    
+    # Interpretation
+    skew_str = "right skewed" if moments[2] > 0 else "left skewed"
+    kurt_str = "leptokurtic" if moments[3] > 0 else "platykurtic"
+    print(f'The data was {skew_str} and {kurt_str}.')
 
 def main():
-    df = pd.read_csv('data.csv')
+    # Use the local filename
+    try:
+        df = pd.read_csv('Financial Dataset - 1.csv')
+    except FileNotFoundError:
+        print("Error: 'Financial Dataset - 1.csv' not found. Put the file in the same folder as this script.")
+        return
+
     df = preprocessing(df)
-    col = '<your chosen column for analysis>'
+    col = 'Respondent Age' # Analysis column
+    
     plot_relational_plot(df)
     plot_statistical_plot(df)
     plot_categorical_plot(df)
+    
     moments = statistical_analysis(df, col)
     writing(moments, col)
-    return
-
 
 if __name__ == '__main__':
     main()
