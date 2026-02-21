@@ -109,7 +109,7 @@ def main():
     Check: PEP-8 Compliance, Docstrings.
     """
     # Load dataset
-    df = pd.read_csv('data.csv.csv')
+    df = pd.read_csv('data.csv')
     df = preprocessing(df)
     
     # Analysis column
