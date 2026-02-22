@@ -7,13 +7,11 @@ You should NOT change any function, file or variable names,
 Make use of the functions presented in the lectures
 and ensure your code is PEP-8 compliant, including docstrings.
 """
-from corner import corner
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import scipy.stats as ss
-import seaborn as sns
-
 
 def plot_relational_plot(df):
     """
@@ -111,8 +109,12 @@ def plot_statistical_plot(df):
     available_categories = [cat for cat in stability_order
                             if cat in df['voltage_stability_category'].values]
 
-    box_data = [df[df['voltage_stability_category'] == cat]['grid_stability_score'].values
-                for cat in available_categories]
+    box_data = [
+     df[df['voltage_stability_category'] == cat][
+     'grid_stability_score'
+    ].values
+    for cat in available_categories
+    ]
 
     # Create box plot with custom styling
     bplot = ax.boxplot(box_data, labels=available_categories,
