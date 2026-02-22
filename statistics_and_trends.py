@@ -110,6 +110,8 @@ def plot_statistical_plot(df):
     available_categories = [cat for cat in stability_order
                             if cat in df['voltage_stability_category'].values]
 
+    categories = df['voltage_stability_category'].dropna().unique()
+
     box_data = []
     for cat in categories:
      mask = df['voltage_stability_category'] == cat
