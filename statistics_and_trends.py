@@ -185,8 +185,6 @@ def preprocessing(df):
     """
     # You should preprocess your data in this function and
     # make use of quick features such as 'describe', 'head/tail' and 'corr'.
-
-    
     print("DATASET DIMENSIONS")
     print(f"    Rows: {df.shape[0]:,} | Columns: {df.shape[1]}\n")
 
@@ -236,8 +234,6 @@ def preprocessing(df):
     print(f"    After:  {rows_after:,} rows")
     print(f"    Removed: {rows_before - rows_after:,} rows")
     print()
-
-
     return df_clean
 
 
