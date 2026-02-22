@@ -110,11 +110,10 @@ def plot_statistical_plot(df):
     available_categories = [cat for cat in stability_order
                             if cat in df['voltage_stability_category'].values]
 
-    box_data = [
-     df[df['voltage_stability_category'] == cat]['grid_stability_score'].values
-     for cat in categories
-    ]
-
+    box_data = []
+    for cat in categories:
+     mask = df['voltage_stability_category'] == cat
+     box_data.append(df.loc[mask, 'grid_stability_score'].values)
     # Create box plot with custom styling
     bplot = ax.boxplot(box_data, labels=available_categories,
                        patch_artist=True, notch=False,
@@ -185,29 +184,26 @@ def preprocessing(df):
     # You should preprocess your data in this function and
     # make use of quick features such as 'describe', 'head/tail' and 'corr'.
 
-    print("\n" + "+" * 85)
-    print("+{:^83}+".format("DATA PREPROCESSING AND EXPLORATORY ANALYSIS"))
-    print("+" * 85 + "\n")
-
-    print("[1] DATASET DIMENSIONS")
+    
+    print("DATASET DIMENSIONS")
     print(f"    Rows: {df.shape[0]:,} | Columns: {df.shape[1]}\n")
 
-    print("[2] FIRST 5 RECORDS (HEAD)")
+    print("FIRST 5 RECORDS (HEAD)")
     head_data = df.head(5)
     print(head_data.to_string(max_colwidth=15))
     print()
 
-    print("[3] LAST 5 RECORDS (TAIL)")
+    print("LAST 5 RECORDS (TAIL)")
     tail_data = df.tail(5)
     print(tail_data.to_string(max_colwidth=15))
     print()
 
-    print("[4] STATISTICAL DESCRIPTION")
+    print("STATISTICAL DESCRIPTION")
     description = df.describe()
     print(description.to_string())
     print()
 
-    print("[5] CORRELATION MATRIX (NUMERICAL FEATURES)")
+    print("CORRELATION MATRIX (NUMERICAL FEATURES)")
     numeric_df = df.select_dtypes(include=[np.number])
     corr_matrix = numeric_df.corr()
     # Display subset of correlation matrix for readability
@@ -215,13 +211,13 @@ def preprocessing(df):
     print("    ... (truncated for brevity)")
     print()
 
-    print("[6] MISSING VALUES CHECK")
+    print("MISSING VALUES CHECK")
     missing_vals = df.isnull().sum()
     print(missing_vals[missing_vals > 0] if missing_vals.sum() > 0
           else "    No missing values detected!")
     print()
 
-    print("[7] DATA TYPE INFORMATION")
+    print("DATA TYPE INFORMATION")
     dtype_counts = df.dtypes.value_counts()
     for dtype, count in dtype_counts.items():
         print(f"    {dtype}: {count} columns")
@@ -233,13 +229,12 @@ def preprocessing(df):
     df_clean = df_clean.drop_duplicates()
     rows_after = len(df_clean)
 
-    print("[8] CLEANING OPERATIONS")
+    print("CLEANING OPERATIONS")
     print(f"    Before: {rows_before:,} rows")
     print(f"    After:  {rows_after:,} rows")
     print(f"    Removed: {rows_before - rows_after:,} rows")
     print()
 
-    print("+" * 85 + "\n")
 
     return df_clean
 
