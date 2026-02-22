@@ -114,8 +114,8 @@ def plot_statistical_plot(df):
 
     box_data = []
     for cat in categories:
-     mask = df['voltage_stability_category'] == cat
-     box_data.append(df.loc[mask, 'grid_stability_score'].values)
+        mask = df['voltage_stability_category'] == cat
+        box_data.append(df.loc[mask, 'grid_stability_score'].values)
     # Create box plot with custom styling
     bplot = ax.boxplot(box_data, labels=available_categories,
                        patch_artist=True, notch=False,
