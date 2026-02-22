@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 import scipy.stats as ss
 
+
 def plot_relational_plot(df):
     """
     Plot scatter diagram with trend analysis showing power consumed
@@ -110,10 +111,8 @@ def plot_statistical_plot(df):
                             if cat in df['voltage_stability_category'].values]
 
     box_data = [
-     df[df['voltage_stability_category'] == cat][
-     'grid_stability_score'
-    ].values
-    for cat in available_categories
+     df[df['voltage_stability_category'] == cat]['grid_stability_score'].values
+     for cat in categories
     ]
 
     # Create box plot with custom styling
